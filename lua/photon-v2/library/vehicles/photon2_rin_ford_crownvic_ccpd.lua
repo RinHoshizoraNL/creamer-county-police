@@ -49,52 +49,54 @@ VEHICLE.Equipment = {
 						Position = Vector( 0, -19.2, 68.8 ),
 						Angles = Angle( 0.5, 90, 0 ),
 						Scale = 0.82,
-						StateMap = "[R] 1 2 3 4 [R] 5 6 [R] 7 8 9 10 [B] 11 12 [R] 13 14 [B] 15 16",
+						StateMap = "[R] 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24",
 						Segments = {
-							ForwardInboard = {
+							Main = {
+								FrameDuration = 1/30,
 								Frames = {
-									[1] = "3 6",
-									[2] = "4 5",
-									[3] = "5",
-									[4] = "6"
+									[1] = "3 8",
+									[2] = "3 8",
+									[3] = "5 8",
+									[4] = "5 3 8",
+									[5] = "5 7",
+									[6] = "5 3",
+									[7] = "5 7",
+									[8] = "7 5 3",
+									[9] = "5 3",
+									[10] = "5 3",
+									[11] = "7",
+									[12] = "4 7",
+									[13] = "7",
+									[14] = "7 4 6 8",
+									[15] = "7 4 6",
+									[16] = "6 8",
+									[17] = "4 6",
+									[18] = "6 8",
+									[19] = "4 6 8",
+									[20] = "4 6",
+									[21] = "4 8",
+									[22] = "3 8",
+									[23] = "8",
+									[24] = "8 4 3 5",
 								},
+								
 								Sequences = {
-									["QUAD_FLASH"] = sequence():QuadFlash( 1, 2 ):Do( 4 ):Alternate( 1, 2, 4 ):Do( 4 ),
-									["SLOW"] = sequence():Steady( 4, 10 ):Off( 1 ):Steady( 3, 10 ):Off( 1 )
+									["Lights"] = {
+										1,2,3,4,5,4,6,7,4,7,8,9,10,11,12,10,13,14,15,16,17,18,19,20,21,22,4,24,4,24,1,
+									},
+								},
+								TakedownFlash = {
+									FrameDuration = 1/30,
+									Frames = {
+										[1] = "23", 
+										[2] = "24",
+									},
+									
+									Sequences = {
+										["Middle"] = sequence():Blink( 1, 2 ),
+									}
 								}
 							},
-							Corners = {
-								Frames = {
-									[1] = "7 9",
-									[2] = "8 10",
-									[3] = "7 8 9 10"
-								},
-								Sequences = {
-									["TRIPLE_FLASH_HOLD"] = { 1, 1, 0, 1, 0, 1, 0, 2, 2, 0, 2, 0, 2, 0 },
-									["ON"] = { 3 }
-								}
-							},
-							RearOuter = {
-								Frames = {
-									[1] = "11",
-									[2] = "12",
-								},
-								Sequences = {
-									["SLOW"] = sequence():Steady( 1, 10 ):Off( 2 ):Steady( 2, 10 ):Off( 2 )
-								}
-							},
-							RearInboard = {
-								Frames = {
-									[1] = "13 16",
-									[2] = "14 15",
-									[3] = "13",
-									[4] = "14"
-								},
-								Sequences = {
-									["QUAD_FLASH"] = sequence():QuadFlash( 1, 2 ):Do( 4 ):Alternate( 1, 2, 4 ):Do( 4 ),
-									["QUAD_FLASH_BLUE"] = sequence():QuadFlash( 3, 4 ):Do( 4 ):Alternate( 3, 4, 4 ):Do( 4 ),
-								}
-							}
 						},
 						Bones = {
 							["foot_l"] = { Vector( -0.1, 0, -0.2), Angle( 0, 0, 0 ), 1 },
@@ -105,29 +107,25 @@ VEHICLE.Equipment = {
 						Inputs = {
 							["Emergency.Warning"] = {
 								["MODE1"] = {
-									Corners = "ON",
-									ForwardInboard = "SLOW",
-									RearOuter = "SLOW",
+									-- Corners = "ON",
+									-- ForwardInboard = "SLOW",
+									-- RearOuter = "SLOW",
 								},
 								["MODE2"] = {
-									ForwardInboard = "QUAD_FLASH",
-									Corners = "TRIPLE_FLASH_HOLD",
-									RearOuter = "SLOW",
-									RearInboard = "QUAD_FLASH_BLUE"
+									-- ForwardInboard = "QUAD_FLASH",
+									-- Corners = "TRIPLE_FLASH_HOLD",
+									-- RearOuter = "SLOW",
+									-- RearInboard = "QUAD_FLASH_BLUE"
 								},
 								["MODE3"] = {
-									ForwardInboard = "QUAD_FLASH",
-									Corners = "TRIPLE_FLASH_HOLD",
-									RearOuter = "SLOW",
-									RearInboard = "QUAD_FLASH",
-									Takedown = "TRIPLE_FLASH",
-									Alley = "TRIPLE_FLASH:180"
+									Main = "Lights",
+									TakedownFlash = "Middle",
 								}
 							},
 							["Emergency.Directional"] = {
-								["LEFT"] = { AmberTrafficFill = "LEFT" },
-								["RIGHT"] = { AmberTrafficFill = "RIGHT" },
-								["CENOUT"] = { AmberTrafficFill = "CENOUT" },
+								-- ["LEFT"] = { AmberTrafficFill = "LEFT" },
+								-- ["RIGHT"] = { AmberTrafficFill = "RIGHT" },
+								-- ["CENOUT"] = { AmberTrafficFill = "CENOUT" },
 							}
 						},
 						SubMaterials = {
